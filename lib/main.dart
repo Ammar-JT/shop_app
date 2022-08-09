@@ -1,4 +1,4 @@
-// Lesson 1: Setting up project + add a product grid + some themes +
+// Lesson 1: Setting up project + add a product grid + some themes + ClipRRect (Clip Round Rectangle)
 
 // Setting up project
 //    - stateless main
@@ -10,6 +10,10 @@
 //    - used product_item in the product grid of product_overview_screen
 //    - in product_item: display title + favorite icon + cart icon
 //    - some themes
+
+// ClipRRect:
+//    - just to make border more rounded
+//    - go and see it in product_item
 import 'package:flutter/material.dart';
 import './screens/products_overview_screen.dart';
 
