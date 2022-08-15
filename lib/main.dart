@@ -1,47 +1,40 @@
-// Lesson 3: ......... + Mixin
+// Lesson 4: turn of listener + change a model (like product) into a provider + nested providers + replace provider set up with index of the father provider + use the provider and pass values instead of using Stateful widgets
 
-// Providers & Listeners
-//    - https://pub.dev/packages/provider/install
-//    - make a provider folder and file name products.dart
-//    - why providers? cuz without it you have to pass the data through the whole widget tree using constructors
-//    .. and this shit is exausted + force the whole tree to re build the app
-//    - To avoid the re build of the whole tree, we use providers
+// turn of listener:
+//      - you can turn of listener in the widget, it means it will use the provider,
+//        ..but when the content of the provider change, the widget won't change.
+//      - we did that in product_detail_screen, we changed:
+//            - final loadedProduct = Provider.of<Products>(context).findById(productId);
+//        to
+//            - final loadedProduct = Provider.of<Products>(context, listen: false).findById(productId);
 
-// ChangeNotifier (the mix in):
-//    - use the mix in (which is like extends but lighter version)
-//    - use the mix in ChangeNotifier in product.dart
-//    - notifyListeners() is available when you use ChangeNotifier
+// change a model (like product) into a provider:
+//      - just moved product from models to providers
+//      - i used the mixin ChangeNotifier (using with)
 
-//import provider on the top:
-//    - if you need the provider in product_detail + product_overview,
-//    .. then, you have to import the provider in their father, which is main
-//    - So, import 'package:provider/provider.dart' here
-//    - and Wrap the father widget you need (Material in our case) with ChangeNotifierProvider
-//    - ChangeNotifierProvider comes from /provider.dart
+// nested providers:
+//      - products use product, both of them are providers now
+//      - products setted up in main cuz their children needs products provider
+//      - product setted up in the widget products_grid, cuz not the entire tree need it, only products_grid's children
+//      - Notice that we don't use the constructor to pass data from products_grid to product_item
+//        ..and that's obviously cuz we use providers, which means no need for constructor passing,
+//        ..And if State changes, no need for Statefull widget!!!
+//      - Stateful widget can be replaced with providers!
 
-//ChangeNotifierProvider:
-//    - and Wrap the father widget you need (Material in our case) with ChangeNotifierProvider
-//    - ChangeNotifierProvider comes from /provider.dart
-//    - use the argument create (or builder in older versions)
-//    .. in our case:      create: (ctx) => Products(),
-//    - now doing all of that, when a changes happen to the provider, it won't re build the whole tree, (not even the main)
-//    .. instea, only the widget that listen to the provider will be changed
+// replace provider set up with index of the father provider:
+//      - in product grid, when we set up the product provider:
+//        ..istead of using:
+//            ChangeNotifierProvider( create: (c) => product(), child)
+//        ..we simply used:
+//            ChangeNotifierProvider( create: (c) => products[i], child)
 
-// some changes:
-//    - i separate product_grid from product_overview_screen
-
-// Provider.of(context):
-//    - this is the method the give you the access to the provider
-//    - we used it in products_grid: Provider.of<Products>(context);
-
-//Mixin:
-//    - https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15121178?start=30#announcements
-//    - same as inheritence (extends), but you can (with) many Mixins
-//    .. unlike inhertience you can (extends only one class)
-//    - a theoritical difference is that there is strong connection between class and its parent class (the inheritor)
-//    .. unlike the Mixin, it's only a general functions and propery
-//    - Car can (extends) one parent like transportation (which has strong connection),
-//    .. but it can (with) many Mixins like agility, sizes, and so on... (were they has a weak connection and can be used with other like animals and devices)
+// use the provider and pass values instead of using Stateful widgets:
+//      - use the provider product in product_item
+//      - put a toggle function in the provider
+//      - use notifyListeners() in product provider
+//      - notifyListeners() = setState() <<< تقريبا، اهم شي وصلك المعنى
+//      - use toggleFavoriteStatus() in product_item widget
+//      - make the favorite button toggable (put if and else to diplay icon filled if 1 and empty if 0)
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

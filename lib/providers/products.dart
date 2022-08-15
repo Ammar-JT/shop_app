@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/product.dart';
+import './product.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -42,6 +42,10 @@ class Products with ChangeNotifier {
     return [
       ..._items
     ]; //<< why that spread operator? cuz we don't want the same list, we want a copy of it (not just another name with the same reference)
+  }
+
+  Product findById(String id) {
+    return _items.firstWhere((prod) => prod.id == id);
   }
 
   void addProduct() {
