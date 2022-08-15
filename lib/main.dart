@@ -1,21 +1,11 @@
-// Lesson 1: Setting up project + add a product grid + some themes + ClipRRect (Clip Round Rectangle)
+// Lesson 2: add on the fly route + ......
 
-// Setting up project
-//    - stateless main
-//    - create sructure of the project: models folder + product.dart + screens folder + product_overview_screen
+// add on the fly route:
+//    - a direct route used in MaterialPageRoute
 
-// add a product grid:
-//    - added a product_item widget
-//    - added product grid to product_overview_screen
-//    - used product_item in the product grid of product_overview_screen
-//    - in product_item: display title + favorite icon + cart icon
-//    - some themes
-
-// ClipRRect:
-//    - just to make border more rounded
-//    - go and see it in product_item
 import 'package:flutter/material.dart';
 import './screens/products_overview_screen.dart';
+import './screens/product_detail_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,6 +21,9 @@ class MyApp extends StatelessWidget {
       ),
       // home: MyHomePage(),
       home: ProductOverviewScreen(),
+      routes: {
+        ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+      },
     );
   }
 }
