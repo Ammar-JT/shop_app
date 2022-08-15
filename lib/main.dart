@@ -1,4 +1,4 @@
-// Lesson 3: Providers & Listeners + ChangeNotifier (the mix in) + import provider on the top + ChangeNotifierProvider + Provider.of(context) + Mixin
+// Lesson 3: ......... + Mixin
 
 // Providers & Listeners
 //    - https://pub.dev/packages/provider/install
