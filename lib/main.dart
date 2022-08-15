@@ -1,4 +1,4 @@
-// Lesson 3: Providers & Listeners + ChangeNotifier (the mix in) + import provider on the top + ChangeNotifierProvider + Provider.of(context)
+// Lesson 3: Providers & Listeners + ChangeNotifier (the mix in) + import provider on the top + ChangeNotifierProvider + Provider.of(context) + Mixin
 
 // Providers & Listeners
 //    - https://pub.dev/packages/provider/install
@@ -33,6 +33,15 @@
 // Provider.of(context):
 //    - this is the method the give you the access to the provider
 //    - we used it in products_grid: Provider.of<Products>(context);
+
+//Mixin:
+//    - https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15121178?start=30#announcements
+//    - same as inheritence (extends), but you can (with) many Mixins
+//    .. unlike inhertience you can (extends only one class)
+//    - a theoritical difference is that there is strong connection between class and its parent class (the inheritor)
+//    .. unlike the Mixin, it's only a general functions and propery
+//    - Car can (extends) one parent like transportation (which has strong connection),
+//    .. but it can (with) many Mixins like agility, sizes, and so on... (were they has a weak connection and can be used with other like animals and devices)
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
