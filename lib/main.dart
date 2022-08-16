@@ -1,4 +1,4 @@
-// Lesson 6:  make an action buttons (PopupMenuButton) + local state vs app wide state (stateful vs provider)
+// Lesson 6:  make an action buttons (PopupMenuButton) + local state vs app wide state (stateful vs provider) + changed to stateful
 
 //make an action buttons (PopupMenuButton):
 //    - made it in product_overview_screen
@@ -12,6 +12,16 @@
 //    - in this lesson i will have the first commit with the provider functions showFavoritesOnly() + showAll()
 //    - in the next commit the functions will be moved to the local state (or local widget)
 //      .. and the widget will be stateful widget!
+
+// change to stateful (ProductOverviewScreen):
+//    - (products.dart) delete the app wide state functions from the provider products.dart (showFavoritesOnly() + showAll())
+//    - put favoriteItems getter in products.dart
+//
+//    - change products_overview_screen to stateful
+//    - remove the provider.of(context)
+//    - put property _showFavoritesOnly
+//    - pass it to products_grid
+//    - now wrape the lofic inside onSelected (if else) with setState
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
