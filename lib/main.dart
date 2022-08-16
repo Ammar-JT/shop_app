@@ -1,26 +1,17 @@
-// Lesson 5: create (builder) vs .value + Provider.of<Product>(context) vs Consumer<Product>
+// Lesson 6:  make an action buttons (PopupMenuButton) + local state vs app wide state (stateful vs provider)
 
-// create (builder) vs .value <<<< both for setting up the provider
-//      - you we used builder here in main:
-//            ChangeNotifierProvider( create: (ctx) => Products(), .....)
-//      - we can also use .value:
-//            ChangeNotifierProvider.value( value: Products(), .....)
-//      - So, what's the different between them?
-//            - create: is used when you need the context (honestly I donno when we need context أصلا)
-//            - .value: is used when you don't need context
-//            - create: is perfect when you instantiate the object (like here in main)
-//            - .value: is perfect when you reuse a already-instantiated object (like in products_grid, or anything that part of a list or grid),
-//              ..(in products_grid: we're cycling in a list of products that already exist (unlike main we build a whole new widget))
+//make an action buttons (PopupMenuButton):
+//    - made it in product_overview_screen
+//    - used enum for the buttons value
+//    - made two function in products.dart to bring favorites, or bring all
 
-// Provider.of<Product>(context) vs Consumer<Product>: <<<<< both for using the provider and listen to its changes
-//      - both used to listen to data changes in the provider
-//      - what's the different?
-//          - of(context) will re build the entire widget that listened to the change in provider
-//          - consumer will also re build the entire widget (only if you use it to replace of(context entirely)), but....
-//          - if you use both of(context) and consumer at the same time,
-//            .. then there is no need for the full build of the widget!!!!
-//      - to take the advantage of not rebuilding the whole widget, use of(context) in the widget and turn of the listen,
-//        .. and use consumer in a very specific parts, the parts that changing when listening.
+// local state vs app wide state:
+//    - the previous was bad practise, why? cuz favorite products + all product is needed in the widget only (product_overview_screen)
+//      .. not the whole app..
+//    - if that the case then we should use stateful widget, and remove the function of product.dart to this stateful widget
+//    - in this lesson i will have the first commit with the provider functions showFavoritesOnly() + showAll()
+//    - in the next commit the functions will be moved to the local state (or local widget)
+//      .. and the widget will be stateful widget!
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
