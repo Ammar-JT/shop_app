@@ -1,40 +1,26 @@
-// Lesson 4: turn of listener + change a model (like product) into a provider + nested providers + replace provider set up with index of the father provider + use the provider and pass values instead of using Stateful widgets
+// Lesson 5: create (builder) vs .value + Provider.of<Product>(context) vs Consumer<Product>
 
-// turn of listener:
-//      - you can turn of listener in the widget, it means it will use the provider,
-//        ..but when the content of the provider change, the widget won't change.
-//      - we did that in product_detail_screen, we changed:
-//            - final loadedProduct = Provider.of<Products>(context).findById(productId);
-//        to
-//            - final loadedProduct = Provider.of<Products>(context, listen: false).findById(productId);
+// create (builder) vs .value <<<< both for setting up the provider
+//      - you we used builder here in main:
+//            ChangeNotifierProvider( create: (ctx) => Products(), .....)
+//      - we can also use .value:
+//            ChangeNotifierProvider.value( value: Products(), .....)
+//      - So, what's the different between them?
+//            - create: is used when you need the context (honestly I donno when we need context أصلا)
+//            - .value: is used when you don't need context
+//            - create: is perfect when you instantiate the object (like here in main)
+//            - .value: is perfect when you reuse a already-instantiated object (like in products_grid, or anything that part of a list or grid),
+//              ..(in products_grid: we're cycling in a list of products that already exist (unlike main we build a whole new widget))
 
-// change a model (like product) into a provider:
-//      - just moved product from models to providers
-//      - i used the mixin ChangeNotifier (using with)
-
-// nested providers:
-//      - products use product, both of them are providers now
-//      - products setted up in main cuz their children needs products provider
-//      - product setted up in the widget products_grid, cuz not the entire tree need it, only products_grid's children
-//      - Notice that we don't use the constructor to pass data from products_grid to product_item
-//        ..and that's obviously cuz we use providers, which means no need for constructor passing,
-//        ..And if State changes, no need for Statefull widget!!!
-//      - Stateful widget can be replaced with providers!
-
-// replace provider set up with index of the father provider:
-//      - in product grid, when we set up the product provider:
-//        ..istead of using:
-//            ChangeNotifierProvider( create: (c) => product(), child)
-//        ..we simply used:
-//            ChangeNotifierProvider( create: (c) => products[i], child)
-
-// use the provider and pass values instead of using Stateful widgets:
-//      - use the provider product in product_item
-//      - put a toggle function in the provider
-//      - use notifyListeners() in product provider
-//      - notifyListeners() = setState() <<< تقريبا، اهم شي وصلك المعنى
-//      - use toggleFavoriteStatus() in product_item widget
-//      - make the favorite button toggable (put if and else to diplay icon filled if 1 and empty if 0)
+// Provider.of<Product>(context) vs Consumer<Product>: <<<<< both for using the provider and listen to its changes
+//      - both used to listen to data changes in the provider
+//      - what's the different?
+//          - of(context) will re build the entire widget that listened to the change in provider
+//          - consumer will also re build the entire widget (only if you use it to replace of(context entirely)), but....
+//          - if you use both of(context) and consumer at the same time,
+//            .. then there is no need for the full build of the widget!!!!
+//      - to take the advantage of not rebuilding the whole widget, use of(context) in the widget and turn of the listen,
+//        .. and use consumer in a very specific parts, the parts that changing when listening.
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
+      // value: Products(), <<< not best practise, cuz it's not part of a list or grid, it's main!
       create: (ctx) => Products(),
       child: MaterialApp(
         title: 'MyShop',
