@@ -1,22 +1,33 @@
-// Lesson 7: added cart provider (model) + MultiProvider + Connecting to cart provider
+// Lesson 8: create cart_screen + cart_item + making cart_item Dismissible (drag to dismis) + make an app drawer widget + make order expandable
 
-// added cart provider (model)
-//    -create cart provider
+// create cart_screen
 
-// MultiProvider:
-//    - use MultiProvider in main
-//    - add Cart.dart to it
-//    - use provider.of<Cart>(context) in product_item.dart
+// create cart_item
 
-//Connecting to cart provider
+// making cart_item Dismissible (drag to dismis):
+//      - in cart_screen just use Dismissible class
+//      - and make some logic in cart.dart to acutally delete items from the list
+
+// product detail data
+
+// make orders object (provider)
+
+//make an app drawer widget
+
+// make order_item a stateful widget (cuz the changes is local (local state not app wide state))
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/screens/cart_screen.dart';
 
 import './screens/products_overview_screen.dart';
 import './screens/product_detail_screen.dart';
+import './screens/cart_screen.dart';
+import './screens/orders_screen.dart';
+
 import './providers/products.dart';
 import './providers/cart.dart';
+import './providers/orders.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,10 +37,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => Products(),
+          create: (ctx) => Products(),
         ),
         ChangeNotifierProvider(
-          create: (context) => Cart(),
+          create: (ctx) => Cart(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Orders(),
         ),
       ],
       child: MaterialApp(
@@ -43,6 +57,8 @@ class MyApp extends StatelessWidget {
         home: ProductOverviewScreen(),
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          CartScreen.routeName: (ctx) => CartScreen(),
+          OrdersScreen.routeName: (ctx) => OrdersScreen(),
         },
       ),
     );
