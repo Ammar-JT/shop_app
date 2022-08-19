@@ -1,4 +1,4 @@
-// Lesson 8: create cart_screen + cart_item + making cart_item Dismissible (drag to dismis) + make an app drawer widget + make order expandable
+// Lesson 8: create cart_screen + cart_item + making cart_item Dismissible (drag to dismis) + make an app drawer widget + make order expandable + (End of this chapter or section)
 
 // create cart_screen
 
