@@ -1,21 +1,4 @@
-// Lesson 8: create cart_screen + cart_item + making cart_item Dismissible (drag to dismis) + make an app drawer widget + make order expandable + (End of this chapter or section)
-
-// create cart_screen
-
-// create cart_item
-
-// making cart_item Dismissible (drag to dismis):
-//      - in cart_screen just use Dismissible class
-//      - and make some logic in cart.dart to acutally delete items from the list
-
-// product detail data
-
-// make orders object (provider)
-
-//make an app drawer widget
-
-// make order_item a stateful widget (cuz the changes is local (local state not app wide state))
-
+// New Section (Chapter) in the is course, it called: Working with User Input & Forms
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/screens/cart_screen.dart';
