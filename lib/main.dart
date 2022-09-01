@@ -1,23 +1,4 @@
-// Lesson 3: Image input and preview + Submitting form + saving new products + delete a product
-
-// Image input and preview
-
-// Submitting form:
-//    - used GlobalKey()
-//    - used onSubmit for every field for now
-//    - other things and all are easy
-
-// validation:
-//    - do your validations
-//    - put _form.currentState.validate() in the _saveForm()
-//    - do you logic to submit or to return
-
-// saving new products:
-//    - saving a
-
-// delete a product:
-//    - you can use a callback function in user_product_item
-//    - or just use the provider, which is better cuz you already using it in that widget
+// New Chapter: Connect Flutter App with Http API
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
