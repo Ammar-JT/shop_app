@@ -1,20 +1,17 @@
-// Lesson 1: Install and setup firebase + Sending Post Request + Future and http.post().then
+// Lesson 2: change addProduct function in products.dart to a function that return Future + waiting indicator
 
-//Install and setup firebase
-//      - install is very easy, just add depandacy in pubspec.yaml
-//      - https://pub.dev/packages/http/install
-//      - create new firebase project and make a realtime DB
-//      - this firebase db will act as any other API..
-//        .. yeah, exactally like the APIs you make with Laravel
+// change addProduct function in products.dart to a function that return Future:
+//       - it's just a small change, but fantastic!
+//       - go and see it in proudcts.dart
+//       - now in edit_product_screen.dart, we can use then cuz we hava a returned future!
+//       - and we will use .then, and inside it we use the pop and
 
-// Sending Post Request:
-//      - better to not do the logic in the UI widgets, so it will be in products.dart
-//      - just use http.post() <<< go and see products.dart
-
-// Future and http.post().then:
-//      - same http resquest send and response, no need to explain
-//      - after you send request, if there is a changable UI logic after that request,
-//      .. simply put it inside .then()
+// waiting indicator:
+//       - make a _isLoading var in edit_product_screen.dart
+//       - use it inside .then inside a setState() ofcourse
+//       - this _isLoading will be in if else to make the edit_product_screen.dart
+//         .. decide to display indicator or display the widget tree
+//       - we used it in edit_product_screen >>> body: _isLoading ? indicator : widget tree logic
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
