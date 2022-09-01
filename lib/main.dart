@@ -1,4 +1,20 @@
-// New Chapter: Connect Flutter App with Http API
+// Lesson 1: Install and setup firebase + Sending Post Request + Future and http.post().then
+
+//Install and setup firebase
+//      - install is very easy, just add depandacy in pubspec.yaml
+//      - https://pub.dev/packages/http/install
+//      - create new firebase project and make a realtime DB
+//      - this firebase db will act as any other API..
+//        .. yeah, exactally like the APIs you make with Laravel
+
+// Sending Post Request:
+//      - better to not do the logic in the UI widgets, so it will be in products.dart
+//      - just use http.post() <<< go and see products.dart
+
+// Future and http.post().then:
+//      - same http resquest send and response, no need to explain
+//      - after you send request, if there is a changable UI logic after that request,
+//      .. simply put it inside .then()
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
