@@ -1,13 +1,23 @@
-// Lesson 2: edit product + forms and form inputs + input focus when press enter
+// Lesson 3: Image input and preview + Submitting form + saving new products + delete a product
 
-// edit product
-// forms and form inputs
+// Image input and preview
 
-// input focus when press enter
-//    - so the form won't be submitted
-//    - used FocusNode()
-//    - used void dispose()
-//    - look at edit_product_screen
+// Submitting form:
+//    - used GlobalKey()
+//    - used onSubmit for every field for now
+//    - other things and all are easy
+
+// validation:
+//    - do your validations
+//    - put _form.currentState.validate() in the _saveForm()
+//    - do you logic to submit or to return
+
+// saving new products:
+//    - saving a
+
+// delete a product:
+//    - you can use a callback function in user_product_item
+//    - or just use the provider, which is better cuz you already using it in that widget
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
