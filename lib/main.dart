@@ -1,17 +1,19 @@
-// Lesson 4: async & await & try{}catch{} Vs future & .then & .catchError
+// Lesson 5: Fetching data from DB & initState & of(context) + Transform fetched DB Data + Pull-To-Refresh
 
-// async & await & try{}catch{} Vs future & .then & .catchError:
-//      - it's all in products.dart, go and see it
-//      - the whole addProduct() function is async function now (so any thing inside is a future by default)
-//      - the code that wanted to be a future can be prefixed with await
-//      - this await code after executed it will return a response, we can store this response
-//      ..and use it in the next line.
-//
-//      - by default the next line after await will be executed after the await finished
-//      - so it will be exactally like .then ,,, and the stored response can be used also
-//
-//      - the error handling here will be used in the casual way, all the await and resonse code will be wraped with:
-//          - try{the await + response code}catch{}
+//  Fetching data from DB & initState & of(context):
+//      - too much logic, you can find it in
+//          - products.dart: fetchAndSetProducts
+//          - products_overview_screen.dart: initState() and didChangeDependencies()
+//      - data will be fetched as json, we have to transform it to display it
+
+// Transform fetched DB Data:
+//      - all logic happened in product.dart: fetchAndSetProducts()
+//      - no need to explain, it's easy
+//      - i also used the loading indicator in product_overview_screen.dart
+
+// Pull-To-Refresh
+//      - all logic is in user_products_screen.dart
+//      - specifically in _refreshProducts() and RefreshIndicator
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
