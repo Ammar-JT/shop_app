@@ -60,22 +60,34 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  Future<void> addProduct(Product product) {
+  // ---------------------------------------------------------------------------------
+  //Lesson 4: async & await & try{}catch{} Vs future & .then & .catchError
+  // async & await & try{}catch{} Vs future & .then & .catchError:
+  //      - it's all in products.dart, go and see it
+  //      - the whole addProduct() function is async function now (so any thing inside is a future by default)
+  //      - the code that wanted to be a future can be prefixed with await
+  //      - this await code after executed it will return a response, we can store this response
+  //      ..and use it in the next line.
+  //
+  //      - by default the next line after await will be executed after the await finished
+  //      - so it will be exactally like .then ,,, and the stored response can be used also
+  //
+  //      - the error handling here will be used in the casual way, all the await and resonse code will be wraped with:
+  //          - try{the await + response code}catch{}
+  Future<void> addProduct(Product product) async {
     const url =
         'https://shop-app-196a8-default-rtdb.europe-west1.firebasedatabase.app/products.json';
-
-    return http
-        .post(
-      Uri.parse(url),
-      body: json.encode({
-        'title': product.title,
-        'description': product.description,
-        'imageUrl': product.imageUrl,
-        'price': product.price,
-        'isFavorite': product.isFavorite,
-      }),
-    )
-        .then((response) {
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: json.encode({
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }),
+      );
       final newProduct = Product(
         title: product.title,
         description: product.description,
@@ -84,12 +96,13 @@ class Products with ChangeNotifier {
         id: json.decode(response.body)['name'],
       );
       _items.add(newProduct);
-      // _items.insert(0, newProduct); //at the start of the list
-      notifyListeners();
-    }).catchError((error) {
+    } catch (error) {
       print(error);
       throw error;
-    });
+    }
+
+    // _items.insert(0, newProduct); //at the start of the list
+    notifyListeners();
   }
 
   void updateProduct(String id, Product newProduct) {
