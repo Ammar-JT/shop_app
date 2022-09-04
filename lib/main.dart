@@ -1,17 +1,14 @@
-// Lesson 2: change addProduct function in products.dart to a function that return Future + waiting indicator
+// Lesson 3: catching error of the future (http request) + throw errors
 
-// change addProduct function in products.dart to a function that return Future:
-//       - it's just a small change, but fantastic!
-//       - go and see it in proudcts.dart
-//       - now in edit_product_screen.dart, we can use then cuz we hava a returned future!
-//       - and we will use .then, and inside it we use the pop and
+// catching error of the future (http request):
+//      - catch error can be used after request: http.post().catchError
+//      - or after the repsoned of the request http.post().then().catchError
 
-// waiting indicator:
-//       - make a _isLoading var in edit_product_screen.dart
-//       - use it inside .then inside a setState() ofcourse
-//       - this _isLoading will be in if else to make the edit_product_screen.dart
-//         .. decide to display indicator or display the widget tree
-//       - we used it in edit_product_screen >>> body: _isLoading ? indicator : widget tree logic
+// throw errors:
+//      - you can use throw error; to throw errors hhhhhhh
+//      - when you throw error, the whole block will be exited, and the error will be thrown
+//      ..to the function that call this block (function)
+//      ..we did that in products.dart (throw error) and we catched it in edit_product_screen (Provider.of<Products>(context, listen: false).addProduct(_editedProduct).catchError((error){}));
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

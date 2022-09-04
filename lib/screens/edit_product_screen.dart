@@ -112,7 +112,31 @@ class _EditProductScreenState extends State<EditProductScreen> {
     } else {
       Provider.of<Products>(context, listen: false)
           .addProduct(_editedProduct)
-          .then((value) {
+          .catchError((error) {
+        // showDialog return a future by default, so if you use it without return,
+        //.. it will execute its logic without returning that future,
+        // that's why i comment the next:
+        // showDialog(
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('An error occured!'),
+            content: Text(error.toString() + '+ Something went wrodng'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  print('ooooooooooooooooooooooooooooooooo');
+                  Navigator.of(ctx)
+                      .pop(); //<<<<< كل الكود شغال الا دا الخرا مو راضي يرجع لصفحة ادارة المنتجات
+                },
+              ),
+            ],
+          ),
+          //now when we show the dialog, after user close it, the future will be returned,
+          //.. we can use that future, and use >>> .then <<< to continue our logic
+        );
+      }).then((_) {
         setState(() {
           _isLoading = false;
         });
