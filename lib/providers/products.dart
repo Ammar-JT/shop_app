@@ -71,6 +71,9 @@ class Products with ChangeNotifier {
       final extractedData = json.decode(response.body) as Map<String,
           dynamic>; //should be Map instead of dynamic, but flutter will give an error for that nested map, so use dynamic
 
+      if (extractedData == null) {
+        return;
+      }
       final List<Product> loadedProducts = [];
 
       extractedData.forEach((prodId, prodData) {
