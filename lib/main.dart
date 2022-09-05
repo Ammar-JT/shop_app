@@ -8,7 +8,9 @@
 // Using the FutureBuilder widget:
 //      - see it in orders_screen.dart
 
-//
+// using FutureBuilder without request in every rebuild for widget tree:
+//      - change orders_screen back to stateful
+//      - do the rest of logic
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
