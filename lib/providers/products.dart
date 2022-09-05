@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/models/http_exception.dart';
 
 import './product.dart';
 
@@ -120,9 +121,19 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
+      final url =
+          'https://shop-app-196a8-default-rtdb.europe-west1.firebasedatabase.app/products/$id.json';
+
+      await http.patch(Uri.parse(url),
+          body: json.encode({
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'imageUrl': newProduct.imageUrl,
+            'price': newProduct.price,
+          }));
       _items[prodIndex] = newProduct;
       notifyListeners();
     } else {
@@ -130,8 +141,38 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+  void deleteProduct(String id) async {
+    print(id);
+    final url =
+        'https://shop-app-196a8-default-rtdb.europe-west1.firebasedatabase.app/products/$id.json';
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    print(existingProductIndex);
+
+    var existingProduct = _items[existingProductIndex];
+    print(existingProduct);
+
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    // i wont do next cuz:
+    //        - get and post request, if failed it push back a 4xx error, but delete won't do that
+    //        ..so if make http.delete().then().catchError() <<< it won't catch the error!!!
+    //        - What the solution? simply we through an exception!!
+    //        ..and this time we made a custom exception in models/http_exception.dart
+    //    http.delete(Uri.parse(url)).then((_) {
+    //      existingProduct = null;
+    //    }).catchError((_) {
+    //      _items.insert(existingProductIndex, existingProduct);
+    //      notifyListeners();
+    //    });
+
+    final response = await http.delete(Uri.parse(url));
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      //throw is like exist or return, so you have to do try{}catch{} in user_product_item.dart
+      throw HttpException(
+          'Could not delete the product'); //<< we build this exception by our self heheheh
+    }
+    existingProduct = null;
   }
 }

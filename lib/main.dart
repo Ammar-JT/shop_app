@@ -1,19 +1,19 @@
-// Lesson 5: Fetching data from DB & initState & of(context) + Transform fetched DB Data + Pull-To-Refresh
+// Lesson 6: Update DB data via Patch Request + deleting DB data via HTTP Request
 
-//  Fetching data from DB & initState & of(context):
-//      - too much logic, you can find it in
-//          - products.dart: fetchAndSetProducts
-//          - products_overview_screen.dart: initState() and didChangeDependencies()
-//      - data will be fetched as json, we have to transform it to display it
+// Update DB data via Patch Request:
+//        - transform updateProduct() into a Future function
+//        - add async to the function, so the code will return a future by default
+//
 
-// Transform fetched DB Data:
-//      - all logic happened in product.dart: fetchAndSetProducts()
-//      - no need to explain, it's easy
-//      - i also used the loading indicator in product_overview_screen.dart
-
-// Pull-To-Refresh
-//      - all logic is in user_products_screen.dart
-//      - specifically in _refreshProducts() and RefreshIndicator
+// deleting DB data via HTTP Request:
+//        - very easy, see it in products.dart
+//        - we simply hold the product object in a var and delete it from the list of object, and delete it from db
+//        ..if it doesn't deleted from DB, we take this var and put it back to the list of object
+//
+//        - get and post request, if failed it push back a 4xx error, but delete won't do that
+//        ..so if make http.delete().then().catchError() <<< it won't catch the error!!!
+//        - What the solution? simply we through an exception!!
+//        ..and this time we made a custom exception in models/http_exception.dart
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
