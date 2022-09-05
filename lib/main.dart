@@ -1,14 +1,9 @@
-// Lesson 7: Updating favorite in web + Storing orders in web + fetching order from web
+// Lesson 8: with listen:false no need for delay + improving the code + Using the FutureBuilder widget
 
-// Updating favorite in web:
-//    - same logic of prev lessons
-
-// Storing orders in web:
-//    - same logic of prev lessons
-
-// fetching order from web
-//    - same old shit
-
+// with listen:false no need for delay:
+//      - go and see it in orders_screen.dart
+//      - this will be deleted in the next git commit
+//      ..(which means it's only exist in the lesson 8 first commit)
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/screens/cart_screen.dart';
