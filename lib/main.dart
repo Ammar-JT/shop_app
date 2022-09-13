@@ -1,16 +1,4 @@
-// Lesson 8: with listen:false no need for delay + Using the FutureBuilder widget + using FutureBuilder without request in every rebuild for widget tree
-
-// with listen:false no need for delay:
-//      - go and see it in orders_screen.dart
-//      - this will be deleted in the next git commit
-//      ..(which means it's only exist in the lesson 8 first commit)
-
-// Using the FutureBuilder widget:
-//      - see it in orders_screen.dart
-
-// using FutureBuilder without request in every rebuild for widget tree:
-//      - change orders_screen back to stateful
-//      - do the rest of logic
+// New Chapter: Auth
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
