@@ -45,8 +45,9 @@ class Products with ChangeNotifier {
   // var _showFavoritesOnly = false;
 
   final String authToken;
+  final String userId;
 
-  Products(this.authToken, this._items);
+  Products(this.authToken, this.userId, this._items);
 
   List<Product> get items {
     // if (_showFavoritesOnly) {
@@ -65,12 +66,17 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  Future<void> fetchAndSetProducts() async {
-    final url =
-        'https://shop-app-196a8-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=$authToken';
+  // wtf is ([bool filterByUser = false]) ???
+  // .. simply means the default value of this arg is false (if no parameter been sent)
+  // .. but if you send the parameter, it will be recieved:
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    var url =
+        'https://shop-app-196a8-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=$authToken&$filterString';
 
     try {
-      final response = await http.get(Uri.parse(
+      var response = await http.get(Uri.parse(
           url)); //await? it will wait until it response or get and error, then continue the next code
       final extractedData = json.decode(response.body) as Map<String,
           dynamic>; //should be Map instead of dynamic, but flutter will give an error for that nested map, so use dynamic
@@ -78,6 +84,12 @@ class Products with ChangeNotifier {
       if (extractedData == null) {
         return;
       }
+
+      url =
+          'https://shop-app-196a8-default-rtdb.europe-west1.firebasedatabase.app/userFavorites/$userId.json?auth=$authToken';
+      final favoriteResponse = await http.get(Uri.parse(url));
+      final favoriteData = json.decode(favoriteResponse.body);
+
       final List<Product> loadedProducts = [];
 
       extractedData.forEach((prodId, prodData) {
@@ -86,7 +98,8 @@ class Products with ChangeNotifier {
           title: prodData['title'],
           description: prodData['description'],
           price: prodData['price'],
-          isFavorite: prodData['isFavorite'],
+          isFavorite:
+              favoriteData == null ? false : favoriteData[prodId] ?? false,
           imageUrl: prodData['imageUrl'],
         ));
       });
@@ -108,7 +121,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
-          'isFavorite': product.isFavorite,
+          'creatorId': userId,
         }),
       );
       final newProduct = Product(

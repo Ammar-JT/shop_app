@@ -1,15 +1,36 @@
-// Lesson 2: ChangeNotifierProxyProvider instead of ChangeNotifierProvider + Adding token to all requests
+// Lesson 3: Connect 'Favorite' status to user not to all + Attach products to a user (creator) & filter by Creator + attatch orders to a user + add a logout functionality
 
-// ChangeNotifierProxyProvider instead of ChangeNotifierProvider
-//      - why we used it instead? cuz we want to use auth as argument + we want the notifier to have a dependancy
-//      - this notifier has a dependancy which is the prev regular provider (auth)
-//      - if the auth notifier triggered, then this notifier proxy will be triggered too and will rebuild the products
-//      - go and see it here in the main!
+// Connect 'Favorite" status to user not to all:
+//      - we get the used id from the Auth provider to product_item (onPress) to product
+//      - in product.dart we change patch with put, why? (i think i'm not 100% sure):
+//          - .. cuz patch will append
+//          - .. but put will replace
+//      - the meaning of ??:
+//          - isFavorite: favoriteData == null ? false : favoriteData[prodId] ?? false,
+//        .. it means if the value is null, put this instead (put false instead in our case)
+//      - lot's of easy logic, go and see it
 
-// Adding token to all requests:
-//      - you can ether recieve the token from the args of the notifierProxyProvider here in main, we did it for products + orders
-//      - or you can use the provider (Provider.of<Auth>(context, listen: false)), we did it in product_item to send it to product
-//      -
+// Attach products to a user (creator) & filter by Creator
+//        - put createId in the http.post() request of the addProduct() in products.dart
+//        - modify fetchAndSetProducts() to fetch only your product, and that is a server side thing,
+//        .. so you only request the prodcuts that belong to you (instead of fetch all and filter in frontend)
+//        - you modify fetchAndSetProducts() and put a dynamic args [bool filterByUser = false]
+//        .. so you can show all products in products overview, and only your products in manage products
+//
+//        - use FutureBuilder in the body of user_products_screen,
+//          ..why? cuz we need it to fetch the data again when you open manage product after you opened shop
+//          ..which means the widget will be rebuild
+//        - Wallahi too much logic about FutureBuilder that i didn't get it,
+//          .. all these concepts comes from 'State Managment chapter', go see it when you need it
+
+// attatch orders to a user:
+//        - similar to products logic, but much easier
+//        - added userId to the constructor in orders.dart
+//        -
+
+// add a logout functionality
+//        - in auth.dart, add logout
+//        - add logout to the drawer
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +66,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Products>(
           update: (ctx, auth, previousProducts) => Products(
             auth.token,
+            auth.userId,
             previousProducts == null ? [] : previousProducts.items,
           ),
         ),
@@ -54,6 +76,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Orders>(
           update: (ctx, auth, previousOrders) => Orders(
             auth.token,
+            auth.userId,
             previousOrders == null ? [] : previousOrders.orders,
           ),
         ),
