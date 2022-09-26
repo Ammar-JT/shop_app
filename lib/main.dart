@@ -1,22 +1,15 @@
-// Lesson 1: Set up DB Auth and Setting + Add auth screen + signup + login + handling errors + Managing the auth token locally
+// Lesson 2: ChangeNotifierProxyProvider instead of ChangeNotifierProvider + Adding token to all requests
 
-// Set up DB Auth and Setting:
-//      - We continue using firebase
-//      - we put a condition, no read or write unless you are authed
-//      - we turn on sign up with email
+// ChangeNotifierProxyProvider instead of ChangeNotifierProvider
+//      - why we used it instead? cuz we want to use auth as argument + we want the notifier to have a dependancy
+//      - this notifier has a dependancy which is the prev regular provider (auth)
+//      - if the auth notifier triggered, then this notifier proxy will be triggered too and will rebuild the products
+//      - go and see it here in the main!
 
-// Add auth screen:
-//      - it's a ready to use file from the course
-
-// signup: very easy
-
-// login: very easy
-
-// handling errors:
-//      - nothing's new, all are already used before
-
-// Managing the auth token locally:
-//      - we made like a login middleware
+// Adding token to all requests:
+//      - you can ether recieve the token from the args of the notifierProxyProvider here in main, we did it for products + orders
+//      - or you can use the provider (Provider.of<Auth>(context, listen: false)), we did it in product_item to send it to product
+//      -
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,14 +38,24 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Products(),
+        // <Auth, Products> = <Dynamic, Products> <<<<< this will look at Auth notifier before,
+        // .. it find auth, so, the auth notifier will be a dependancy for this notifierProxy,
+        // .. so once the Auth notifier triggered, this notifier proxy will be triggered also!
+        // Products must be there by default, it's not a depandancy (dynamic or whatever)
+        ChangeNotifierProxyProvider<Auth, Products>(
+          update: (ctx, auth, previousProducts) => Products(
+            auth.token,
+            previousProducts == null ? [] : previousProducts.items,
+          ),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Orders(),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          update: (ctx, auth, previousOrders) => Orders(
+            auth.token,
+            previousOrders == null ? [] : previousOrders.orders,
+          ),
         ),
       ],
       child: Consumer<Auth>(
