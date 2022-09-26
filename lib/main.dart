@@ -1,41 +1,19 @@
-// Lesson 3: Connect 'Favorite' status to user not to all + Attach products to a user (creator) & filter by Creator + attatch orders to a user + add a logout functionality
+// Lesson 4: auto logout when token expired + Auto login
 
-// Connect 'Favorite" status to user not to all:
-//      - we get the used id from the Auth provider to product_item (onPress) to product
-//      - in product.dart we change patch with put, why? (i think i'm not 100% sure):
-//          - .. cuz patch will append
-//          - .. but put will replace
-//      - the meaning of ??:
-//          - isFavorite: favoriteData == null ? false : favoriteData[prodId] ?? false,
-//        .. it means if the value is null, put this instead (put false instead in our case)
-//      - lot's of easy logic, go and see it
+// auto logout when token expired:
+//        - create _autoLogout() method in auth.dart
+//        - use this method in _authenticate() to set the timer
 
-// Attach products to a user (creator) & filter by Creator
-//        - put createId in the http.post() request of the addProduct() in products.dart
-//        - modify fetchAndSetProducts() to fetch only your product, and that is a server side thing,
-//        .. so you only request the prodcuts that belong to you (instead of fetch all and filter in frontend)
-//        - you modify fetchAndSetProducts() and put a dynamic args [bool filterByUser = false]
-//        .. so you can show all products in products overview, and only your products in manage products
-//
-//        - use FutureBuilder in the body of user_products_screen,
-//          ..why? cuz we need it to fetch the data again when you open manage product after you opened shop
-//          ..which means the widget will be rebuild
-//        - Wallahi too much logic about FutureBuilder that i didn't get it,
-//          .. all these concepts comes from 'State Managment chapter', go see it when you need it
-
-// attatch orders to a user:
-//        - similar to products logic, but much easier
-//        - added userId to the constructor in orders.dart
-//        -
-
-// add a logout functionality
-//        - in auth.dart, add logout
-//        - add logout to the drawer
+// Auto login:
+//        - An easy logic in auth.dart in _authenticate() and tryLogin()
+//        - lots of logic here in the home of the materialApp here in main, but it's easy
+//          .. go and see it
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/screens/cart_screen.dart';
 
+import './screens/splash_screen.dart';
 import './screens/products_overview_screen.dart';
 import './screens/product_detail_screen.dart';
 import './screens/cart_screen.dart';
@@ -90,7 +68,16 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lato',
           ),
           // home: MyHomePage(),
-          home: auth.isAuth ? ProductOverviewScreen() : AuthScreen(),
+          home: auth.isAuth
+              ? ProductOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
           routes: {
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
